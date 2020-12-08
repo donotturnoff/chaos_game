@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html lang="en">
+ <head>
+  <title>Chaos game</title>
+  <script>
+var ctx, points, w, h, pos, ratio;
+
+function paint() {
+	ctx.beginPath();
+	ctx.arc(pos.x, pos.y, 1, 0, Math.PI*2);
+	ctx.fill();
+}
+
+function roll() {
+	return Math.floor(Math.random()*points.length);
+}
+
+function move() {
+	paint();
+	var point = points[roll()];
+	pos.x += (point.x-pos.x)*ratio;
+	pos.y += (point.y-pos.y)*ratio;
+}
+
+function init() {
+	var cvs = document.getElementById("cvs");
+	ctx = cvs.getContext("2d");
+	w = cvs.width;
+	h = cvs.height;
+	points = [];
+	points.push({"x": 200, "y": 200});
+	points.push({"x": 600, "y": 200});
+	points.push({"x": 600, "y": 600});
+	pos = {"x": 400, "y": 400};
+	for (var i = 0; i < points.length; i++) {
+		var point = points[i];
+		ctx.beginPath();
+		ctx.arc(point.x, point.y, 3, 0, Math.PI*2);
+		ctx.fill();
+	}
+	ratio = 0.5;
+	setInterval(move, 10);
+}
+document.addEventListener("DOMContentLoaded", init, false);
+  </script>
+ </head>
+ <body>
+  <canvas id="cvs" width="800" height="800"></canvas>
+ </body>
+</html>
